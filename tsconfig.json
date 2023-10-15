@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "noEmit": true,
+    "jsx": "react",
+    "module": "esnext",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "baseUrl": "./src",
+    "strict": true,
+    "moduleResolution": "node"
+  },
+  "include": ["./src"]
+}
