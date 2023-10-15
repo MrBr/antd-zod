@@ -1,0 +1,25 @@
+{
+  "name": "antd-zod",
+  "version": "0.0.1",
+  "description": "Antd Zod validation",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrBr/antd-zod.git"
+  },
+  "keywords": [
+    "antd",
+    "zod",
+    "react",
+    "validation"
+  ],
+  "author": "Luka Bracanovic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MrBr/antd-zod/issues"
+  },
+  "homepage": "https://github.com/MrBr/antd-zod#readme"
+}
