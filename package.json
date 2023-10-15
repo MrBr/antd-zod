@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/MrBr/antd-zod/issues"
   },
-  "homepage": "https://github.com/MrBr/antd-zod#readme"
+  "homepage": "https://github.com/MrBr/antd-zod#readme",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
 }
