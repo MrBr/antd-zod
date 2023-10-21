@@ -1,1 +1,1 @@
-export { default as useFormFields } from "./hooks/useFormFields";
+export { default as createSchemaFieldRule } from "./utils/createSchemaFieldRule";
