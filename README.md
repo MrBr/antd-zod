@@ -12,7 +12,7 @@ npm install antd-zod
 
 ```jsx
 import z from "zod";
-import {createSchemaFieldRule} from "antd-zod";
+import { createSchemaFieldRule } from "antd-zod";
 
 // Create zod schema - base schema MUST be an object
 const CustomFormValidationSchema = z.object({
@@ -25,11 +25,11 @@ const rule = createSchemaFieldRule(CustomFormValidationSchema);
 // Set rule to Form.Item
 const SimpleForm = () => {
     return (
-    <Form>
-        <Form.Item label="Field label" name="fieldName" rules={[rule]}>
-            <Input/>
-        </Form.Item>
-    </Form>
+        <Form>
+            <Form.Item label="Field label" name="fieldName" rules={[rule]}>
+                <Input/>
+            </Form.Item>
+        </Form>
     );
 };
 ```
