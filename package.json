@@ -8,7 +8,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "publish": "npm publish ./dist && rm -rf ./dist",
-    "build": "rm -rf ./dist && tsc -p tsconfig.build.json && cp package.json ./dist/package.json"
+    "build": "rm -rf ./dist && tsc -p tsconfig.build.json && cp package.json ./dist/package.json && cp README.md ./dist/README.md"
   },
   "repository": {
     "type": "git",
