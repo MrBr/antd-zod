@@ -1,13 +1,13 @@
 {
   "name": "antd-zod",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Antd Zod validation",
   "main": "./dist/index.js",
   "scripts": {
     "test": "test",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "publish": "npm publish ./dist && rm -rf ./dist",
+    "publish": "npm run build && npm publish ./dist && rm -rf ./dist",
     "build": "rm -rf ./dist && tsc -p tsconfig.build.json && cp package.json ./dist/package.json && cp README.md ./dist/README.md"
   },
   "repository": {
