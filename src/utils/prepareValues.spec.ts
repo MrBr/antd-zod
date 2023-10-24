@@ -9,6 +9,9 @@ const NestedSchema = z.object({
     }),
   }),
 });
+const OptionalSchema = z.object({
+  optionalObject: z.object({}).optional(),
+});
 
 describe("prepareValues", () => {
   it("should return empty values", async () => {
@@ -55,6 +58,20 @@ describe("prepareValues", () => {
           prop: "test",
         },
       },
+    });
+  });
+  it("should omit optional field", () => {
+    const placeholders = prepareValues(OptionalSchema, {
+      optionalObject: undefined,
+    });
+    expect(placeholders).toEqual({});
+  });
+  it("should include optional field", () => {
+    const placeholders = prepareValues(OptionalSchema, {
+      optionalObject: {},
+    });
+    expect(placeholders).toEqual({
+      optionalObject: {},
     });
   });
 });

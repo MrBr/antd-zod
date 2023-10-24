@@ -9,7 +9,7 @@ const getNestedPlaceholders = <T extends ZodRawShape>(
 ): {} => {
   const baseSchema = getZodSchemaShape(schema);
   return Object.entries(baseSchema).reduce((res, [key, field]) => {
-    if (isZodOptional(field) && !values[key]) {
+    if (isZodOptional(field) && values[key] === undefined) {
       // Ignore optional fields when empty regardless of the base type
       return res;
     }
