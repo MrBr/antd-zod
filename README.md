@@ -7,7 +7,7 @@ The aim of this library is to enable seamless integration of Zod validation with
 ```
 npm install antd-zod
 ```
-
+Link to npm package [antd-zod](https://npmjs.com/package/antd-zod).
 ## Usage
 
 ```jsx
