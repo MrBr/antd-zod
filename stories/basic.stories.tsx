@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, InputNumber } from "antd";
+import { Form, Input, Button, InputNumber, Select } from "antd";
 import z from "zod";
 import { createSchemaFieldRule } from "../src";
 
@@ -7,11 +7,9 @@ const VALUES = ["Male", "Female"] as const;
 const Genders = z.enum(VALUES);
 
 const BasicSchema = z.object({
-  name: z
-    .string()
-    .refine((value) => value.length > 2, {
-      message: "Must have more than 2 chars",
-    }),
+  name: z.string().refine((value) => value.length > 2, {
+    message: "Must have more than 2 chars",
+  }),
   height: z.number(),
   gender: Genders.optional(),
 });
@@ -28,7 +26,13 @@ const BasicForm = () => {
         <InputNumber />
       </Form.Item>
       <Form.Item label="Enter gender" name="gender" rules={[rule]}>
-        <Input />
+        <Select
+          options={[
+            { value: "Male" },
+            { value: "Female" },
+            { value: "Invalid option" },
+          ]}
+        />
       </Form.Item>
       <Button htmlType="submit">Submit</Button>
     </Form>
