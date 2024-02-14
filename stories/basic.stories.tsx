@@ -8,6 +8,25 @@ const Genders = z.enum(VALUES);
 
 const Cities = z.enum(["New York", "Peking", "Paris", "London"]);
 
+const ArraySchema = z.object({
+  name: z
+    .string({
+      invalid_type_error: "error con el tipo",
+      required_error: "error de requerido",
+    })
+    .min(1),
+  testArrayNested: z
+    .object({
+      name: z
+        .string({
+          invalid_type_error: "error con el tipo",
+          required_error: "error de requerido",
+        })
+        .min(2),
+    })
+    .array(),
+});
+
 const BasicSchema = z.object({
   name: z.string().refine((value) => value.length > 2, {
     message: "Must have more than 2 chars",
@@ -17,6 +36,7 @@ const BasicSchema = z.object({
   address: z.object({
     city: Cities,
   }),
+  testArray: ArraySchema.array(),
 });
 
 const rule = createSchemaFieldRule(BasicSchema);
@@ -50,6 +70,48 @@ const BasicForm = () => {
           ]}
         />
       </Form.Item>
+      <Form.List name="testArray">
+        {(fields, { add }) => {
+          return (
+            <div>
+              {fields.map((field) => (
+                <>
+                  <Form.Item
+                    label="Name"
+                    initialValue={""}
+                    name={[field.name, "name"]}
+                    rules={[rule]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item>
+                    <Form.List name={[field.name, "testArrayNested"]}>
+                      {(fields, { add }) => {
+                        return (
+                          <div>
+                            {fields.map((field2) => (
+                              <Form.Item
+                                label="Name2"
+                                initialValue={""}
+                                name={[field2.name, "name"]}
+                                rules={[rule]}
+                              >
+                                <Input />
+                              </Form.Item>
+                            ))}
+                            <button onClick={() => add()}>add2</button>
+                          </div>
+                        );
+                      }}
+                    </Form.List>
+                  </Form.Item>
+                </>
+              ))}
+              <button onClick={() => add()}>add</button>
+            </div>
+          );
+        }}
+      </Form.List>
       <Button htmlType="submit">Submit</Button>
     </Form>
   );

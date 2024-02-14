@@ -16,6 +16,9 @@ export const isZodOptional = (schema: unknown): schema is z.ZodOptional<any> =>
 export const isZodObject = (schema: unknown): schema is z.ZodObject<any> =>
   typeof schema === "object" && !!schema && "shape" in schema;
 
+export const isZodArray = (schema: unknown): schema is z.ZodArray<any> =>
+  schema instanceof z.ZodArray;
+
 export const getZodSchemaShape = <T extends ZodRawShape>(
-  schema: AntdFormZodSchema<T>,
+  schema: AntdFormZodSchema<T>
 ) => (isZodEffect(schema) ? schema._def.schema.shape : schema.shape);
