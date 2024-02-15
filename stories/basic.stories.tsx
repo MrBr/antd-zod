@@ -36,7 +36,7 @@ const BasicSchema = z.object({
   address: z.object({
     city: Cities,
   }),
-  testArray: ArraySchema.array(),
+  testArray: ArraySchema.array().min(2),
 });
 
 const rule = createSchemaFieldRule(BasicSchema);
@@ -70,8 +70,8 @@ const BasicForm = () => {
           ]}
         />
       </Form.Item>
-      <Form.List name="testArray">
-        {(fields, { add }) => {
+      <Form.List name="testArray" rules={[rule as any]}>
+        {(fields, { add }, { errors }) => {
           return (
             <div>
               {fields.map((field) => (
@@ -108,6 +108,7 @@ const BasicForm = () => {
                 </>
               ))}
               <button onClick={() => add()}>add</button>
+              <Form.ErrorList errors={errors} />
             </div>
           );
         }}
