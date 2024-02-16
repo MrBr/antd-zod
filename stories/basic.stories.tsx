@@ -2,29 +2,31 @@ import React from "react";
 import { Form, Input, Button, InputNumber, Select } from "antd";
 import z from "zod";
 import { createSchemaFieldRule } from "../src";
+import { ValidatorRule } from "rc-field-form/lib/interface";
 
 const VALUES = ["Male", "Female"] as const;
 const Genders = z.enum(VALUES);
 
 const Cities = z.enum(["New York", "Peking", "Paris", "London"]);
 
-const ArraySchema = z.object({
+const Child = z.object({
   name: z
     .string({
-      invalid_type_error: "error con el tipo",
-      required_error: "error de requerido",
+      invalid_type_error: "must be string",
+      required_error: "required",
     })
     .min(1),
-  testArrayNested: z
+  toys: z
     .object({
       name: z
         .string({
-          invalid_type_error: "error con el tipo",
-          required_error: "error de requerido",
+          invalid_type_error: "must be string",
+          required_error: "required",
         })
         .min(2),
     })
-    .array(),
+    .array()
+    .min(2),
 });
 
 const BasicSchema = z.object({
@@ -36,7 +38,7 @@ const BasicSchema = z.object({
   address: z.object({
     city: Cities,
   }),
-  testArray: ArraySchema.array().min(2),
+  children: Child.array().min(2),
 });
 
 const rule = createSchemaFieldRule(BasicSchema);
@@ -70,11 +72,11 @@ const BasicForm = () => {
           ]}
         />
       </Form.Item>
-      <Form.List name="testArray" rules={[rule as any]}>
-        {(fields, { add }, { errors }) => {
+      <Form.List name="children" rules={[rule as unknown as ValidatorRule]}>
+        {(childrenFields, { add }, { errors }) => {
           return (
             <div>
-              {fields.map((field) => (
+              {childrenFields.map((field) => (
                 <>
                   <Form.Item
                     label="Name"
@@ -85,21 +87,21 @@ const BasicForm = () => {
                     <Input />
                   </Form.Item>
                   <Form.Item>
-                    <Form.List name={[field.name, "testArrayNested"]}>
-                      {(fields, { add }) => {
+                    <Form.List name={[field.name, "toys"]}>
+                      {(toyFields, { add: addNested }) => {
                         return (
                           <div>
-                            {fields.map((field2) => (
+                            {toyFields.map((toy) => (
                               <Form.Item
                                 label="Name2"
                                 initialValue={""}
-                                name={[field2.name, "name"]}
+                                name={[toy.name, "name"]}
                                 rules={[rule]}
                               >
                                 <Input />
                               </Form.Item>
                             ))}
-                            <button onClick={() => add()}>add2</button>
+                            <Button onClick={() => addNested()}>Add Toy</Button>
                           </div>
                         );
                       }}
@@ -107,7 +109,7 @@ const BasicForm = () => {
                   </Form.Item>
                 </>
               ))}
-              <button onClick={() => add()}>add</button>
+              <Button onClick={() => add()}>add</Button>
               <Form.ErrorList errors={errors} />
             </div>
           );
