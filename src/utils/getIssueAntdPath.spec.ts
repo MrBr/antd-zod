@@ -20,7 +20,7 @@ describe("getIssueAntdPath", () => {
   });
   it("should return user.name path", async () => {
     const res = await NestedRefinedSchema.safeParseAsync(
-      prepareValues(NestedRefinedSchema, {}),
+      prepareValues(NestedRefinedSchema, {})
     );
 
     if (res.success) {
@@ -33,7 +33,7 @@ describe("getIssueAntdPath", () => {
   });
   it("should return users path when missing", async () => {
     const res = await ArrayUserFieldSchema.safeParseAsync(
-      prepareValues(ArrayUserFieldSchema, {}),
+      prepareValues(ArrayUserFieldSchema, {})
     );
 
     if (res.success) {
@@ -46,7 +46,7 @@ describe("getIssueAntdPath", () => {
   });
   it("should return users path when containing an invalid value", async () => {
     const res = await ArrayUserFieldSchema.safeParseAsync(
-      prepareValues(ArrayUserFieldSchema, { users: [1] }),
+      prepareValues(ArrayUserFieldSchema, { users: "invalid value" })
     );
 
     if (res.success) {
@@ -57,12 +57,31 @@ describe("getIssueAntdPath", () => {
 
     expect(path).toEqual("users");
   });
+  it("should return users items path when containing an invalid value", async () => {
+    const res1 = await ArrayUserFieldSchema.safeParseAsync(
+      prepareValues(ArrayUserFieldSchema, { users: [1] })
+    );
+
+    const res2 = await ArrayUserFieldSchema.safeParseAsync(
+      prepareValues(ArrayUserFieldSchema, { users: [{ name: 1 }] })
+    );
+
+    if (res1.success || res2.success) {
+      return;
+    }
+
+    const path1 = getIssueAntdPath(ArrayUserFieldSchema, res1.error.issues[0]);
+    const path2 = getIssueAntdPath(ArrayUserFieldSchema, res2.error.issues[0]);
+
+    expect(path1).toEqual("users.0");
+    expect(path2).toEqual("users.0.name");
+  });
   it("should throw error when invalid issue", async () => {
     expect(() =>
-      getIssueAntdPath(ArrayUserFieldSchema, undefined as any),
+      getIssueAntdPath(ArrayUserFieldSchema, undefined as any)
     ).toThrow();
     expect(() =>
-      getIssueAntdPath(ArrayUserFieldSchema, { path: [] } as any),
+      getIssueAntdPath(ArrayUserFieldSchema, { path: [] } as any)
     ).toThrow();
   });
 });
