@@ -3,6 +3,7 @@ import { isZodObject, isZodArray } from "./schema";
 import getSchemaBaseSchema from "./getSchemaBaseSchema";
 
 const concatAntdPath = (antdPath: string[]) => antdPath.join(".");
+const prepareZodPath = (antdPath: string) => antdPath.replace(/\.\d+/, "");
 const serializePath = (
   schema: ZodTypeAny,
   zodPath: string[],
@@ -18,7 +19,7 @@ const serializePath = (
   if (isZodObject(baseSchema)) {
     antdPath.push(subPath);
 
-    const replacedPath = subPath.replace(/\.\d+/, "");
+    const replacedPath = prepareZodPath(subPath);
     const subPathBaseSchema = getSchemaBaseSchema(
       baseSchema.shape[replacedPath]
     );
@@ -34,17 +35,20 @@ const serializePath = (
   throw new Error("Unknown zod schema");
 };
 
-const getIssueAntdPath = (schema: ZodTypeAny, issue: ZodIssue) => {
-  // issue.path = ["testArray", "0", "myField"] => modifiedPath = ["testArray.0", "myField"]
-  const modifiedPath = issue.path.reduce<string[]>((prev: string[], curr) => {
+const prepareAntdPath = (path: (string | number)[]) => {
+  return path.reduce<string[]>((prev: string[], curr) => {
     if (typeof curr === "number") {
       const base = [...prev].slice(0, -1);
       return [...base, `${prev.slice(-1)[0]}.${curr}`];
     }
     return [...prev, curr];
   }, []);
+};
 
-  const zodPath = modifiedPath.reverse() as string[];
+const getIssueAntdPath = (schema: ZodTypeAny, issue: ZodIssue) => {
+  const preparedPath = prepareAntdPath(issue.path);
+
+  const zodPath = preparedPath.reverse() as string[];
   if (zodPath.length === 0) {
     throw new Error(
       "Unknown zod path. Usually sign of refined shape without 'path' property."

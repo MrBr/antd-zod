@@ -26,8 +26,22 @@ describe("validateFields", () => {
     });
   });
   it("should return errors for object array field", async () => {
+    expect(
+      await validateFields(ArrayUserFieldSchema, { users: "invalid value" })
+    ).toEqual({
+      users: "Expected array, received string",
+    });
+  });
+
+  it("should return errors for object array field items", async () => {
     expect(await validateFields(ArrayUserFieldSchema, { users: [1] })).toEqual({
-      users: "Expected object, received number",
+      "users.0": "Expected object, received number",
+    });
+
+    expect(
+      await validateFields(ArrayUserFieldSchema, { users: [{ name: 10 }] })
+    ).toEqual({
+      "users.0.name": "Expected string, received number",
     });
   });
 });
