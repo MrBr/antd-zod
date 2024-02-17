@@ -2,7 +2,6 @@ import React from "react";
 import { Form, Input, Button, InputNumber, Select, Col, Card } from "antd";
 import z from "zod";
 import { createSchemaFieldRule } from "../src";
-import { ValidatorRule } from "rc-field-form/lib/interface";
 import { CloseOutlined } from "@ant-design/icons";
 
 const VALUES = ["Male", "Female"] as const;
@@ -74,75 +73,79 @@ const BasicForm = () => {
         />
       </Form.Item>
 
-      <Form.List name="children" rules={[rule as unknown as ValidatorRule]}>
-        {(childrenFields, { add, remove }, { errors }) => {
-          return (
-            <div>
-              {childrenFields.map((child) => (
-                <Card
-                  size="small"
-                  title={`Item ${child.name + 1}`}
-                  key={child.key}
-                  extra={
-                    <CloseOutlined
-                      onClick={() => {
-                        remove(child.name);
-                      }}
-                    />
-                  }
-                >
-                  <Form.Item
-                    label="Child"
-                    initialValue={""}
-                    name={[child.name, "name"]}
-                    rules={[rule]}
+      <Form.Item name="children" rules={[rule]}>
+        <Form.List name="children">
+          {(childrenFields, { add, remove }, { errors }) => {
+            return (
+              <div>
+                {childrenFields.map((child) => (
+                  <Card
+                    size="small"
+                    title={`Item ${child.name + 1}`}
+                    key={child.key}
+                    extra={
+                      <CloseOutlined
+                        onClick={() => {
+                          remove(child.name);
+                        }}
+                      />
+                    }
                   >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item>
-                    <Form.List name={[child.name, "toys"]}>
-                      {(
-                        toyFields,
-                        { add: addNested, remove: removeNested },
-                      ) => {
-                        return (
-                          <>
-                            {toyFields.map((toy) => (
-                              <Col offset={1} key={toy.key}>
-                                <Form.Item
-                                  label="Toy"
-                                  initialValue={""}
-                                  name={[toy.name, "name"]}
-                                  rules={[rule]}
-                                >
-                                  <Input
-                                    suffix={
-                                      <CloseOutlined
-                                        onClick={() => {
-                                          removeNested(toy.name);
-                                        }}
-                                      />
-                                    }
-                                  />
-                                </Form.Item>
-                              </Col>
-                            ))}
-                            <Button onClick={() => addNested()}>Add Toy</Button>
-                          </>
-                        );
-                      }}
-                    </Form.List>
-                  </Form.Item>
-                </Card>
-              ))}
-              <div style={{ padding: "10px 0 20px" }}>
-                <Button onClick={() => add()}>Add Child</Button>
+                    <Form.Item
+                      label="Child"
+                      initialValue={""}
+                      name={[child.name, "name"]}
+                      rules={[rule]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item>
+                      <Form.List name={[child.name, "toys"]}>
+                        {(
+                          toyFields,
+                          { add: addNested, remove: removeNested },
+                        ) => {
+                          return (
+                            <>
+                              {toyFields.map((toy) => (
+                                <Col offset={1} key={toy.key}>
+                                  <Form.Item
+                                    label="Toy"
+                                    initialValue={""}
+                                    name={[toy.name, "name"]}
+                                    rules={[rule]}
+                                  >
+                                    <Input
+                                      suffix={
+                                        <CloseOutlined
+                                          onClick={() => {
+                                            removeNested(toy.name);
+                                          }}
+                                        />
+                                      }
+                                    />
+                                  </Form.Item>
+                                </Col>
+                              ))}
+                              <Button onClick={() => addNested()}>
+                                Add Toy
+                              </Button>
+                            </>
+                          );
+                        }}
+                      </Form.List>
+                    </Form.Item>
+                  </Card>
+                ))}
+                <div style={{ padding: "10px 0 20px" }}>
+                  <Button onClick={() => add()}>Add Child</Button>
+                </div>
+                <Form.ErrorList errors={errors} />
               </div>
-              <Form.ErrorList errors={errors} />
-            </div>
-          );
-        }}
-      </Form.List>
+            );
+          }}
+        </Form.List>
+      </Form.Item>
       <Button htmlType="submit">Submit</Button>
     </Form>
   );
