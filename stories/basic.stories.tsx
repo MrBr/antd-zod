@@ -103,7 +103,7 @@ const BasicForm = () => {
                     <Form.List name={[child.name, "toys"]}>
                       {(
                         toyFields,
-                        { add: addNested, remove: removeNested }
+                        { add: addNested, remove: removeNested },
                       ) => {
                         return (
                           <>

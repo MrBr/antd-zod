@@ -7,7 +7,7 @@ const prepareZodPath = (antdPath: string) => antdPath.replace(/\.\d+/, "");
 const serializePath = (
   schema: ZodTypeAny,
   zodPath: string[],
-  antdPath: string[] = []
+  antdPath: string[] = [],
 ): string => {
   const subPath = zodPath.pop();
 
@@ -21,7 +21,7 @@ const serializePath = (
 
     const replacedPath = prepareZodPath(subPath);
     const subPathBaseSchema = getSchemaBaseSchema(
-      baseSchema.shape[replacedPath]
+      baseSchema.shape[replacedPath],
     );
 
     if (isZodObject(subPathBaseSchema))
@@ -51,7 +51,7 @@ const getIssueAntdPath = (schema: ZodTypeAny, issue: ZodIssue) => {
   const zodPath = preparedPath.reverse() as string[];
   if (zodPath.length === 0) {
     throw new Error(
-      "Unknown zod path. Usually sign of refined shape without 'path' property."
+      "Unknown zod path. Usually sign of refined shape without 'path' property.",
     );
   }
   return serializePath(schema, zodPath);

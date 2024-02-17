@@ -15,7 +15,7 @@ const createSchemaFieldRule =
         const values = getFieldsValue();
         const errors = await validateFields<T>(
           schema,
-          prepareValues(schema, values)
+          prepareValues(schema, values),
         );
 
         if (!!errors && errors[field]) {
