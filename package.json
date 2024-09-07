@@ -1,6 +1,6 @@
 {
   "name": "antd-zod",
-  "version": "5.1.0",
+  "version": "5.20.5",
   "description": "Antd Zod validation",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
