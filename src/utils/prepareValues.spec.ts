@@ -12,6 +12,12 @@ const NestedSchema = z.object({
 const OptionalSchema = z.object({
   optionalObject: z.object({}).optional(),
 });
+const NestedRefinementSchema = z
+  .object({
+    optionalObject: z.object({}).optional(),
+  })
+  .refine(() => true)
+  .refine(() => true);
 
 describe("prepareValues", () => {
   it("should return empty values", async () => {
@@ -68,6 +74,14 @@ describe("prepareValues", () => {
   });
   it("should include optional field", () => {
     const placeholders = prepareValues(OptionalSchema, {
+      optionalObject: {},
+    });
+    expect(placeholders).toEqual({
+      optionalObject: {},
+    });
+  });
+  it("should include optional field in refined schema", () => {
+    const placeholders = prepareValues(NestedRefinementSchema, {
       optionalObject: {},
     });
     expect(placeholders).toEqual({

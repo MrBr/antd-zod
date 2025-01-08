@@ -21,4 +21,5 @@ export const isZodArray = (schema: unknown): schema is z.ZodArray<any> =>
 
 export const getZodSchemaShape = <T extends ZodRawShape>(
   schema: AntdFormZodSchema<T>,
-) => (isZodEffect(schema) ? schema._def.schema.shape : schema.shape);
+): ZodRawShape =>
+  isZodEffect(schema) ? getZodSchemaShape(schema._def.schema) : schema.shape;

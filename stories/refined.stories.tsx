@@ -12,6 +12,11 @@ const PasswordSchema = z
     message: "Passwords must match",
     // NOTE THE PATH!
     path: ["passwordCopy"],
+  })
+  .refine(({ password }) => password.length > 3, {
+    message: "Password must have at least 3 characters",
+    // NOTE THE PATH!
+    path: ["password"],
   });
 
 const rule = createSchemaFieldRule(PasswordSchema);
