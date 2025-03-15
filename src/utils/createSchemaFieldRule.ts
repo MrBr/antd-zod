@@ -1,11 +1,14 @@
 import { ZodRawShape } from "zod";
 import { RuleRender } from "rc-field-form/lib/interface";
-import { AntdFormZodSchema } from "../types";
+import { AntdFormZodSchema, CreateSchemaFieldRuleOptions } from "../types";
 import validateFields from "./validateFields";
 import prepareValues from "./prepareValues";
 
 const createSchemaFieldRule =
-  <T extends ZodRawShape>(schema: AntdFormZodSchema<T>): RuleRender =>
+  <T extends ZodRawShape>(
+    schema: AntdFormZodSchema<T>,
+    options: CreateSchemaFieldRuleOptions,
+  ): RuleRender =>
   ({ getFieldsValue }) => ({
     validator: (rule) =>
       new Promise(async (resolve, reject) => {
@@ -16,6 +19,7 @@ const createSchemaFieldRule =
         const errors = await validateFields<T>(
           schema,
           prepareValues(schema, values),
+          options,
         );
 
         if (!!errors && errors[field]) {
