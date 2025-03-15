@@ -1,4 +1,4 @@
-# Antd Zod validation
+# Antd Zod Validation
 
 The aim of this library is to enable seamless integration of Zod validation with Antd form fields.
 
@@ -11,7 +11,6 @@ Link to npm package [antd-zod](https://npmjs.com/package/antd-zod).
 
 ### Older version
 - For Antd@^4.0.0 use antd-zod@^4.0.0
-
 
 ## Usage
 
@@ -45,16 +44,36 @@ const SimpleForm = () => {
 };
 ```
 
+## Customizing Error Messages
+
+You can customize how multiple error messages are handled using the `aggregateErrorMessages` option.
+
+### Example: Show Only the First Error
+```jsx
+const rule = createSchemaFieldRule(CustomFormValidationSchema, {
+  aggregateErrorMessages: (prev, next) => prev,
+});
+```
+
+### Example: Concatenate Errors with a Comma
+```jsx
+const rule = createSchemaFieldRule(CustomFormValidationSchema, {
+  aggregateErrorMessages: (prev, next) => `${prev}, ${next}`,
+});
+```
+
+This allows greater flexibility in how error messages are displayed within your forms.
+
 ## Examples
 All examples are in Storybook stories
 
 - Basic examples - https://github.com/MrBr/antd-zod/blob/main/stories/basic.stories.tsx
 - Refined examples - https://github.com/MrBr/antd-zod/blob/main/stories/refined.stories.tsx
 
-To start storybook locally, install depenedencies and run `npm run storybook`.
+To start Storybook locally, install dependencies and run `npm run storybook`.
 
 ## Specifications
-Antd Form.Item (rc-field-form) has a certain validation lifecycle which works the best with Form.Item rules. In order to respect that behaviour, `antd-zod` provides a way to create a generic rule that will validate all schema properties and refinements on a field level.
+Antd Form.Item (rc-field-form) has a certain validation lifecycle which works the best with Form.Item rules. In order to respect that behavior, `antd-zod` provides a way to create a generic rule that will validate all schema properties and refinements on a field level.
 
 - Base schema for Form data must be an object
 - Object may have refinements on a root level
