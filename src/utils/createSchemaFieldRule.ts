@@ -7,7 +7,7 @@ import prepareValues from "./prepareValues";
 const createSchemaFieldRule =
   <T extends ZodRawShape>(
     schema: AntdFormZodSchema<T>,
-    options: CreateSchemaFieldRuleOptions,
+    options?: CreateSchemaFieldRuleOptions,
   ): RuleRender =>
   ({ getFieldsValue }) => ({
     validator: (rule) =>

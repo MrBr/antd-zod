@@ -6,7 +6,7 @@ import formatErrors from "./formatErrors";
 const validateFields = async <T extends ZodRawShape>(
   schema: AntdFormZodSchema<T>,
   values: {},
-  options: ValidateFieldsOptions,
+  options?: ValidateFieldsOptions,
 ): Promise<{ [key: string]: string }> => {
   const valuesWithPlaceholders = prepareValues(schema, values);
 
