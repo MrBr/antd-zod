@@ -6,13 +6,13 @@ import formatErrors from "./formatErrors";
 const validateFields = async <T extends ZodRawShape>(
   schema: AntdFormZodSchema<T>,
   values: {},
-): Promise<{ [key: string]: string }> => {
+): Promise<{ [key: string]: string[] }> => {
   const valuesWithPlaceholders = prepareValues(schema, values);
 
   const res = await schema.safeParseAsync(valuesWithPlaceholders);
 
   if (res.success) {
-    return {} as Record<keyof T, string>;
+    return {} as Record<keyof T, string[]>;
   }
 
   return formatErrors(schema, res.error);

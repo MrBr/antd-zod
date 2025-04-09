@@ -30,6 +30,7 @@ const Child = z.object({
 });
 
 const BasicSchema = z.object({
+  email: z.string().email().min(5).max(15).includes('.com'),
   name: z.string().refine((value) => value.length > 2, {
     message: "Must have more than 2 chars",
   }),
@@ -46,6 +47,9 @@ const rule = createSchemaFieldRule(BasicSchema);
 const BasicForm = () => {
   return (
     <Form>
+      <Form.Item label="Enter email" name="email" rules={[rule]}>
+        <Input />
+      </Form.Item>
       <Form.Item label="Enter name" name="name" rules={[rule]}>
         <Input />
       </Form.Item>

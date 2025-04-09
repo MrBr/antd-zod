@@ -7,7 +7,7 @@ import getIssueAntdPath from "./getIssueAntdPath";
 const formatErrors = <T extends ZodRawShape>(
   schema: ZodTypeAny,
   errors: ZodError<T>,
-): { [key: string]: string } => {
+): { [key: string]: string[] } => {
   if (errors.issues.length === 0) {
     return {};
   }
@@ -22,14 +22,18 @@ const formatErrors = <T extends ZodRawShape>(
     (formattedErrors, issue) => {
       try {
         const path = getIssueAntdPath(schema, issue);
-        formattedErrors[path] = issue.message;
+        if (formattedErrors[path]) {
+          formattedErrors[path].push(issue.message);
+        } else {
+          formattedErrors[path] = [issue.message];
+        }
       } catch (e) {
         console.warn(e);
       }
 
       return formattedErrors;
     },
-    {} as { [key: string]: string },
+    {} as { [key: string]: string[] },
   );
 };
 
