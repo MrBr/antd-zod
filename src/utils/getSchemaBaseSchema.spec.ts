@@ -1,4 +1,4 @@
-import z from "zod";
+import * as z from "@zod/mini";
 import getSchemaBaseSchema from "./getSchemaBaseSchema";
 
 describe("getSchemaBaseSchema", () => {
@@ -20,22 +20,6 @@ describe("getSchemaBaseSchema", () => {
 
     expect(baseSchema).toBe(arraySchema);
   });
-  it("should get refined base schema", () => {
-    const arrayBaseSchema = z.array(z.string());
-    const arrayRefinedSchema = arrayBaseSchema.refine(() => true);
-    const baseSchema = getSchemaBaseSchema(arrayRefinedSchema);
-
-    expect(baseSchema).toBe(arrayBaseSchema);
-  });
-  it("should get nested refined base schema", () => {
-    const arrayBaseSchema = z.array(z.string());
-    const arrayRefinedSchema = arrayBaseSchema
-      .refine(() => true)
-      .refine(() => true);
-    const baseSchema = getSchemaBaseSchema(arrayRefinedSchema);
-
-    expect(baseSchema).toBe(arrayBaseSchema);
-  });
   it("should get object base schema", () => {
     const objectBaseSchema = z.object({});
     const baseSchema = getSchemaBaseSchema(objectBaseSchema);
@@ -44,32 +28,26 @@ describe("getSchemaBaseSchema", () => {
   });
   it("should get optional object base schema", () => {
     const objectBaseSchema = z.object({});
-    const objectSchema = objectBaseSchema.optional();
+    const objectSchema = z.optional(objectBaseSchema);
     const baseSchema =
       getSchemaBaseSchema<typeof objectBaseSchema>(objectSchema);
 
     expect(baseSchema).toBe(objectBaseSchema);
   });
   it("should get required object schema", () => {
-    const objectBaseSchema = z.object({});
-    const objectSchema = objectBaseSchema.required();
+    const objectBaseSchema = z.object({
+      nestedObject: z.string(),
+    });
+    const objectSchema = z.required(objectBaseSchema);
     const baseSchema =
       getSchemaBaseSchema<typeof objectBaseSchema>(objectSchema);
 
     // Required doesn't create new schema
     expect(baseSchema).toBe(objectSchema);
   });
-  it("should get refined object base schema", () => {
-    const objectBaseSchema = z.object({});
-    const objectSchema = objectBaseSchema.refine(() => true);
-    const baseSchema =
-      getSchemaBaseSchema<typeof objectBaseSchema>(objectSchema);
-
-    expect(baseSchema).toBe(objectBaseSchema);
-  });
   it("should get nullish object base schema", () => {
     const objectBaseSchema = z.object({});
-    const objectSchema = objectBaseSchema.nullish();
+    const objectSchema = z.nullish(objectBaseSchema);
     const baseSchema =
       getSchemaBaseSchema<typeof objectBaseSchema>(objectSchema);
 
@@ -77,14 +55,14 @@ describe("getSchemaBaseSchema", () => {
   });
   it("should get nullable object base schema", () => {
     const objectBaseSchema = z.object({});
-    const objectSchema = objectBaseSchema.nullable();
+    const objectSchema = z.nullable(objectBaseSchema);
     const baseSchema =
       getSchemaBaseSchema<typeof objectBaseSchema>(objectSchema);
 
     expect(baseSchema).toBe(objectBaseSchema);
   });
   it("should get merged object base schema", () => {
-    const objectBaseSchema = z.object({}).merge(z.object({}));
+    const objectBaseSchema = z.merge(z.object({}), z.object({}));
     const baseSchema =
       getSchemaBaseSchema<typeof objectBaseSchema>(objectBaseSchema);
 

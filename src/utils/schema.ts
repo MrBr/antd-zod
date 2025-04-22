@@ -1,25 +1,25 @@
-import z, { ZodRawShape } from "zod";
+import {
+  $ZodShape,
+  $ZodArray,
+  $ZodOptional,
+  $ZodObject,
+  $ZodNullable,
+} from "@zod/core";
 import { AntdFormZodSchema } from "../types";
+import { $ZodType } from "@zod/core";
 
-export const isZodEffect = (schema: unknown): schema is z.ZodEffects<any> =>
-  typeof schema === "object" &&
-  !!schema &&
-  !("shape" in schema) &&
-  "_def" in schema &&
-  typeof schema._def === "object" &&
-  !!schema._def &&
-  "schema" in schema._def;
+export const isZodOptional = (schema: $ZodType): schema is $ZodOptional =>
+  schema._zod.def.type === "optional";
 
-export const isZodOptional = (schema: unknown): schema is z.ZodOptional<any> =>
-  typeof schema === "object" && !!schema && "unwrap" in schema;
+export const isZodNullable = (schema: $ZodType): schema is $ZodNullable =>
+  schema._zod.def.type === "nullable";
 
-export const isZodObject = (schema: unknown): schema is z.ZodObject<any> =>
-  typeof schema === "object" && !!schema && "shape" in schema;
+export const isZodObject = (schema: $ZodType): schema is $ZodObject =>
+  schema._zod.def.type === "object";
 
-export const isZodArray = (schema: unknown): schema is z.ZodArray<any> =>
-  schema instanceof z.ZodArray;
+export const isZodArray = (schema: $ZodType): schema is $ZodArray =>
+  schema._zod.def.type === "array";
 
-export const getZodSchemaShape = <T extends ZodRawShape>(
+export const getZodSchemaShape = <T extends $ZodShape>(
   schema: AntdFormZodSchema<T>,
-): ZodRawShape =>
-  isZodEffect(schema) ? getZodSchemaShape(schema._def.schema) : schema.shape;
+): T => schema._zod.def.shape;
