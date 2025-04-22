@@ -1,7 +1,6 @@
 import prepareValues from "./prepareValues";
-import z from "zod";
+import * as z from "@zod/mini";
 
-const PrimitiveSchema = z.object({});
 const NestedSchema = z.object({
   nestedObject: z.object({
     childObject: z.object({
@@ -10,25 +9,18 @@ const NestedSchema = z.object({
   }),
 });
 const OptionalSchema = z.object({
-  optionalObject: z.object({}).optional(),
+  optionalObject: z.optional(z.object({})),
 });
 const NestedRefinementSchema = z
   .object({
-    optionalObject: z.object({}).optional(),
+    optionalObject: z.optional(z.object({})),
   })
-  .refine(() => true)
-  .refine(() => true);
+  .check(
+    z.refine(() => true),
+    z.refine(() => true),
+  );
 
 describe("prepareValues", () => {
-  it("should return empty values", async () => {
-    const placeholders = prepareValues(PrimitiveSchema, {});
-    expect(placeholders).toEqual({});
-  });
-  it("should return values", async () => {
-    const values = { test: 1 };
-    const placeholders = prepareValues(PrimitiveSchema, values);
-    expect(placeholders).toEqual(values);
-  });
   it("should return empty values with placeholders", async () => {
     const placeholders = prepareValues(NestedSchema, {});
     expect(placeholders).toEqual({

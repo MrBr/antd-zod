@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import z from "zod";
+import * as z from "@zod/mini";
 import { createSchemaFieldRule } from "../src";
 
 const PasswordSchema = z
@@ -8,11 +8,11 @@ const PasswordSchema = z
     password: z.string(),
     passwordCopy: z.string(),
   })
-  .superRefine((val, ctx) => {
-    if (val.password.length < 2) {
-      ctx.addIssue({
+  .check((ctx) => {
+    if (ctx.value.password.length < 2) {
+      ctx.issues.push({
+        input: ctx.value,
         path: ["password"],
-        code: z.ZodIssueCode.too_big,
         maximum: 3,
         type: "array",
         inclusive: true,

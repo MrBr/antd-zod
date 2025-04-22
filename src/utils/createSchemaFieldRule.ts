@@ -1,11 +1,11 @@
-import { ZodRawShape } from "zod";
+import { $ZodShape, $ZodType } from "@zod/core";
 import { RuleRender } from "rc-field-form/lib/interface";
 import { AntdFormZodSchema } from "../types";
 import validateFields from "./validateFields";
 import prepareValues from "./prepareValues";
 
 const createSchemaFieldRule =
-  <T extends ZodRawShape>(schema: AntdFormZodSchema<T>): RuleRender =>
+  <T extends $ZodShape>(schema: AntdFormZodSchema<T>): RuleRender =>
   ({ getFieldsValue }) => ({
     validator: (rule) =>
       new Promise(async (resolve, reject) => {

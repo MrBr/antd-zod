@@ -1,11 +1,11 @@
-import { ZodTypeAny } from "zod";
-import { isZodOptional, isZodEffect } from "./schema";
+import { isZodNullable, isZodOptional } from "./schema";
+import { $ZodType } from "@zod/core";
 
-const getSchemaBaseSchema = <T extends ZodTypeAny>(schema: ZodTypeAny): T => {
-  if (isZodEffect(schema)) {
-    return getSchemaBaseSchema(schema._def.schema);
-  } else if (isZodOptional(schema)) {
-    return getSchemaBaseSchema(schema._def.innerType);
+const getSchemaBaseSchema = <T extends $ZodType>(schema: $ZodType): T => {
+  if (isZodOptional(schema)) {
+    return getSchemaBaseSchema(schema._zod.def.innerType);
+  } else if (isZodNullable(schema)) {
+    return getSchemaBaseSchema(schema._zod.def.innerType);
   }
 
   return schema as T;
