@@ -1,7 +1,3 @@
-import z, { ZodRawShape } from "zod";
+import { $ZodObject, $ZodShape } from "zod/v4/core";
 
-export type AntdFormZodSchema<T extends ZodRawShape> =
-  | z.ZodObject<T>
-  | z.ZodEffects<z.ZodObject<T>>
-  | z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>
-  | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>;
+export type AntdFormZodSchema<T extends $ZodShape> = $ZodObject<T>;

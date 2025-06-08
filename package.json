@@ -1,6 +1,6 @@
 {
   "name": "antd-zod",
-  "version": "6.1.0",
+  "version": "7.0.0",
   "description": "Antd Zod validation",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -63,11 +63,11 @@
     "ts-jest": "^29.1.1",
     "tsup": "^8.0.2",
     "typescript": "^5.2.2",
-    "zod": "^3.23.8"
+    "zod": "^3.25.56"
   },
   "peerDependencies": {
     "antd": "^5.20.5",
-    "zod": ">=3.0.0"
+    "zod": ">=3.25.0"
   },
   "dependencies": {
     "lodash.merge": "^4.6.2"

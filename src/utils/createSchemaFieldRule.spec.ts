@@ -28,7 +28,7 @@ describe("createSchemaFieldValidator", () => {
 
     await expect(
       rule(formInstance).validator?.(fieldRule, {}, () => {}),
-    ).rejects.toEqual(["Required"]);
+    ).rejects.toEqual(["Required field name"]);
   });
   it("should validate successfully NestedRefinedSchema values", async () => {
     const rule = createSchemaFieldRule(NestedRefinedSchema);
@@ -46,7 +46,7 @@ describe("createSchemaFieldValidator", () => {
 
     await expect(
       rule(formInstance).validator?.(fieldRule, {}, () => {}),
-    ).rejects.toEqual(["Required"]);
+    ).rejects.toEqual(["Invalid input"]);
   });
   it("should reject invalid NestedRefinedSchema values", async () => {
     const rule = createSchemaFieldRule(NestedRefinedSchema);

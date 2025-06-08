@@ -1,16 +1,15 @@
 import { NameSchema, NestedRefinedSchema } from "../fixtures";
 import getNestedPlaceholders from "./getNestedPlaceholders";
-import z from "zod";
-import prepareValues from "./prepareValues";
+import * as z from "zod/v4-mini";
 
 const NestedOptionalSchema = z.object({
-  nestedObject: z
-    .object({
+  nestedObject: z.optional(
+    z.object({
       childObject: z.object({
         prop: z.string(),
       }),
-    })
-    .optional(),
+    }),
+  ),
 });
 
 describe("getNestedPlaceholders", () => {

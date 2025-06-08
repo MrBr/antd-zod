@@ -1,12 +1,11 @@
-import { ZodError } from "zod/lib/ZodError";
+import { $ZodError, $ZodShape, $ZodType } from "zod/v4/core";
 import getSchemaBaseSchema from "./getSchemaBaseSchema";
-import { ZodRawShape, ZodTypeAny } from "zod";
 import { isZodObject } from "./schema";
 import getIssueAntdPath from "./getIssueAntdPath";
 
-const formatErrors = <T extends ZodRawShape>(
-  schema: ZodTypeAny,
-  errors: ZodError<T>,
+const formatErrors = <T extends $ZodShape>(
+  schema: $ZodType,
+  errors: $ZodError<T>,
 ): { [key: string]: string[] } => {
   if (errors.issues.length === 0) {
     return {};

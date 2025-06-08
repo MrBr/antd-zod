@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import z from "zod";
+import * as z from "zod/v4-mini";
 import { createSchemaFieldRule } from "../src";
 
 const PasswordSchema = z
@@ -8,16 +8,18 @@ const PasswordSchema = z
     password: z.string(),
     passwordCopy: z.string(),
   })
-  .refine(({ password, passwordCopy }) => password === passwordCopy, {
-    message: "Passwords must match",
-    // NOTE THE PATH!
-    path: ["passwordCopy"],
-  })
-  .refine(({ password }) => password.length > 3, {
-    message: "Password must have at least 3 characters",
-    // NOTE THE PATH!
-    path: ["password"],
-  });
+  .check(
+    z.refine(({ password, passwordCopy }) => password === passwordCopy, {
+      error: "Passwords must match",
+      // NOTE THE PATH!
+      path: ["passwordCopy"],
+    }),
+    z.refine(({ password }) => password.length >= 3, {
+      error: "Password must have at least 3 characters",
+      // NOTE THE PATH!
+      path: ["password"],
+    }),
+  );
 
 const rule = createSchemaFieldRule(PasswordSchema);
 

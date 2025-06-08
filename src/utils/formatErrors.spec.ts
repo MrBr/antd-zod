@@ -1,13 +1,11 @@
-import z, { ZodError, ZodIssue } from "zod";
 import formatErrors from "./formatErrors";
 import prepareValues from "./prepareValues";
-
-const schema = z.object({ field: z.string() });
+import { z } from "zod/v4";
 
 describe("formatErrors", () => {
   it("should return empty errors", async () => {
     const schema = z.object({
-      prop: z.string().optional(),
+      prop: z.optional(z.string()),
     });
 
     const res = await schema.safeParseAsync({});
@@ -29,7 +27,9 @@ describe("formatErrors", () => {
     }
     const formattedErrors = formatErrors<{}>(schema, res.error);
 
-    expect(formattedErrors).toEqual({ prop: ["Required"] });
+    expect(formattedErrors).toEqual({
+      prop: ["Invalid input: expected string, received undefined"],
+    });
   });
   it("should format nested prop.child error", async () => {
     const schema = z.object({
@@ -44,11 +44,20 @@ describe("formatErrors", () => {
     }
     const formattedErrors = formatErrors<{}>(schema, res.error);
 
-    expect(formattedErrors).toEqual({ "prop.child": ["Required"] });
+    expect(formattedErrors).toEqual({
+      "prop.child": ["Invalid input: expected string, received undefined"],
+    });
   });
   it("should return multiple errors", async () => {
     const multipleErrorSchema = z.object({
-      email: z.string().email().min(5).max(15).includes(".com"),
+      email: z
+        .string()
+        .check(
+          z.email("Invalid email"),
+          z.minLength(5, "String must contain at least 5 character(s)"),
+          z.maxLength(15),
+          z.includes(".com", 'Invalid input: must include ".com"'),
+        ),
     });
 
     const res = await multipleErrorSchema.safeParseAsync(
@@ -57,7 +66,7 @@ describe("formatErrors", () => {
     if (res.success) {
       return;
     }
-    const formattedErrors = formatErrors<{}>(schema, res.error);
+    const formattedErrors = formatErrors<{}>(multipleErrorSchema, res.error);
     expect(formattedErrors).toEqual({
       email: [
         "Invalid email",

@@ -1,45 +1,61 @@
 import React from "react";
 import { Form, Input, Button, InputNumber, Select, Col, Card } from "antd";
-import z from "zod";
+import * as z from "zod/v4-mini";
 import { createSchemaFieldRule } from "../src";
 import { CloseOutlined } from "@ant-design/icons";
 
-const VALUES = ["Male", "Female"] as const;
-const Genders = z.enum(VALUES);
+const Genders = z.enum(["Male", "Female"]);
 
 const Cities = z.enum(["New York", "Peking", "Paris", "London"]);
 
 const Child = z.object({
   name: z
     .string({
-      invalid_type_error: "must be string",
-      required_error: "required",
+      error: ({ input }) => {
+        if (typeof input !== "string") {
+          return "must be string";
+        }
+        if (input === undefined) {
+          return "required";
+        }
+      },
     })
-    .min(1),
+    .check(z.minLength(1)),
   toys: z
-    .object({
-      name: z
-        .string({
-          invalid_type_error: "must be string",
-          required_error: "required",
-        })
-        .min(2),
-    })
-    .array()
-    .min(2),
+    .array(
+      z.object({
+        name: z
+          .string({
+            error: ({ input }) => {
+              if (typeof input !== "string") {
+                return "must be string";
+              }
+              if (input === undefined) {
+                return "required";
+              }
+            },
+          })
+          .check(z.minLength(2, "Min 2 characters")),
+      }),
+    )
+    .check(z.minLength(2)),
 });
 
 const BasicSchema = z.object({
-  email: z.string().email().min(5).max(15).includes('.com'),
-  name: z.string().refine((value) => value.length > 2, {
-    message: "Must have more than 2 chars",
-  }),
+  email: z
+    .string()
+    .check(z.email(), z.minLength(5), z.maxLength(15), z.includes(".com")),
+  name: z.string().check(
+    z.refine((value) => value.length > 2, {
+      message: "Must have more than 2 chars",
+    }),
+  ),
   height: z.number(),
-  gender: Genders.optional(),
+  gender: z.optional(Genders),
   address: z.object({
     city: Cities,
   }),
-  children: Child.array().min(2),
+  children: z.array(Child).check(z.minLength(2)),
 });
 
 const rule = createSchemaFieldRule(BasicSchema);

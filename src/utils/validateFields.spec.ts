@@ -12,17 +12,17 @@ describe("validateFields", () => {
   });
   it("should return errors", async () => {
     expect(await validateFields(NameSchema, {})).toEqual({
-      name: ["Required"],
+      name: ["Required field name"],
     });
   });
   it("should return errors for nested schemas", async () => {
     expect(await validateFields(NestedRefinedSchema, {})).toEqual({
-      "user.name": ["Required"],
+      "user.name": ["Invalid input"],
     });
   });
   it("should return errors for primitive array field", async () => {
     expect(await validateFields(ArrayNumberFieldSchema, {})).toEqual({
-      numbers: ["Required"],
+      numbers: ["Invalid input"],
     });
   });
   it("should return errors for object array field", async () => {
@@ -35,7 +35,7 @@ describe("validateFields", () => {
 
   it("should return errors for object array field items", async () => {
     expect(await validateFields(ArrayUserFieldSchema, { users: [1] })).toEqual({
-      "users.0": ["Expected object, received number"],
+      "users.0": ["Invalid input"],
     });
 
     expect(

@@ -1,9 +1,9 @@
-import { ZodObject, ZodRawShape } from "zod";
+import { $ZodShape } from "zod/v4/core";
 import { AntdFormZodSchema } from "../types";
-import { getZodSchemaShape, isZodOptional } from "./schema";
+import { getZodSchemaShape, isZodObject, isZodOptional } from "./schema";
 import getSchemaBaseSchema from "./getSchemaBaseSchema";
 
-const getNestedPlaceholders = <T extends ZodRawShape>(
+const getNestedPlaceholders = <T extends $ZodShape>(
   schema: AntdFormZodSchema<T>,
   values: Record<string, any> = {},
 ): {} => {
@@ -15,7 +15,7 @@ const getNestedPlaceholders = <T extends ZodRawShape>(
     }
 
     const fieldSchema = getSchemaBaseSchema(field);
-    if (fieldSchema instanceof ZodObject) {
+    if (isZodObject(fieldSchema)) {
       return {
         ...res,
         [key]: getNestedPlaceholders(fieldSchema, values[key]),
