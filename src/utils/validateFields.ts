@@ -1,5 +1,5 @@
 import { AntdFormZodSchema } from "../types";
-import { $ZodShape } from "zod/v4/core";
+import { $ZodError, $ZodShape, safeParseAsync } from "zod/v4/core";
 import prepareValues from "./prepareValues";
 import formatErrors from "./formatErrors";
 
@@ -9,14 +9,13 @@ const validateFields = async <T extends $ZodShape>(
 ): Promise<{ [key: string]: string[] }> => {
   const valuesWithPlaceholders = prepareValues(schema, values);
 
-  // @ts-ignore
-  const res = await schema.safeParseAsync(valuesWithPlaceholders);
+  const res = await safeParseAsync(schema, valuesWithPlaceholders);
 
   if (res.success) {
     return {} as Record<keyof T, string[]>;
   }
 
-  return formatErrors(schema, res.error);
+  return formatErrors(schema, res.error as $ZodError<T>);
 };
 
 export default validateFields;
