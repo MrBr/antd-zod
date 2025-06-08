@@ -4,13 +4,18 @@ The aim of this library is to enable seamless integration of Zod validation with
 
 ## Installation
 
+### Zod 4
+
 ```
 npm install antd-zod
 ```
-Link to npm package [antd-zod](https://npmjs.com/package/antd-zod).
 
-### Older version
-- For Antd@^4.0.0 use antd-zod@^4.0.0
+### Zod 3
+
+```
+npm install antd-zod@6.1.0
+```
+Link to npm package [antd-zod](https://npmjs.com/package/antd-zod).
 
 
 ## Usage
