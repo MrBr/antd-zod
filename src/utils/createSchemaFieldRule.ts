@@ -1,4 +1,4 @@
-import { $ZodShape, $ZodType } from "@zod/core";
+import { $ZodShape } from "zod/v4/core";
 import { RuleRender } from "rc-field-form/lib/interface";
 import { AntdFormZodSchema } from "../types";
 import validateFields from "./validateFields";

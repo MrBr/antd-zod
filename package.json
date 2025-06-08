@@ -63,11 +63,11 @@
     "ts-jest": "^29.1.1",
     "tsup": "^8.0.2",
     "typescript": "^5.2.2",
-    "@zod/mini": "^4.0.0-beta.20250420T053007"
+    "zod": "^3.25.56"
   },
   "peerDependencies": {
     "antd": "^5.20.5",
-    "@zod/core": ">=0.8.1"
+    "zod": ">=3.25.0"
   },
   "dependencies": {
     "lodash.merge": "^4.6.2"

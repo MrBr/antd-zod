@@ -1,6 +1,6 @@
 import merge from "lodash.merge";
 import getNestedPlaceholders from "./getNestedPlaceholders";
-import { $ZodShape } from "@zod/core";
+import { $ZodShape } from "zod/v4/core";
 import { AntdFormZodSchema } from "../types";
 
 // Antd expects single field validation and Zod invalidates missing object fields (as whole).

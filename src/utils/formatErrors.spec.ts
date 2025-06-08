@@ -1,6 +1,6 @@
 import formatErrors from "./formatErrors";
 import prepareValues from "./prepareValues";
-import { z } from "@zod/mini";
+import { z } from "zod/v4";
 
 describe("formatErrors", () => {
   it("should return empty errors", async () => {
@@ -27,7 +27,9 @@ describe("formatErrors", () => {
     }
     const formattedErrors = formatErrors<{}>(schema, res.error);
 
-    expect(formattedErrors).toEqual({ prop: ["Invalid input"] });
+    expect(formattedErrors).toEqual({
+      prop: ["Invalid input: expected string, received undefined"],
+    });
   });
   it("should format nested prop.child error", async () => {
     const schema = z.object({
@@ -42,7 +44,9 @@ describe("formatErrors", () => {
     }
     const formattedErrors = formatErrors<{}>(schema, res.error);
 
-    expect(formattedErrors).toEqual({ "prop.child": ["Invalid input"] });
+    expect(formattedErrors).toEqual({
+      "prop.child": ["Invalid input: expected string, received undefined"],
+    });
   });
   it("should return multiple errors", async () => {
     const multipleErrorSchema = z.object({

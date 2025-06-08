@@ -1,4 +1,4 @@
-import { $ZodShape } from "@zod/core";
+import { $ZodShape } from "zod/v4/core";
 import { AntdFormZodSchema } from "../types";
 import { getZodSchemaShape, isZodObject, isZodOptional } from "./schema";
 import getSchemaBaseSchema from "./getSchemaBaseSchema";

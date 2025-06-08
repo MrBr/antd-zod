@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Button, InputNumber, Select, Col, Card } from "antd";
-import * as z from "@zod/mini";
+import * as z from "zod/v4-mini";
 import { createSchemaFieldRule } from "../src";
 import { CloseOutlined } from "@ant-design/icons";
 

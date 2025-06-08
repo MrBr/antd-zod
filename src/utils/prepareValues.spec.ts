@@ -1,5 +1,5 @@
 import prepareValues from "./prepareValues";
-import * as z from "@zod/mini";
+import * as z from "zod/v4-mini";
 
 const NestedSchema = z.object({
   nestedObject: z.object({

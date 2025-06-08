@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import * as z from "@zod/mini";
+import * as z from "zod/v4-mini";
 import { createSchemaFieldRule } from "../src";
 
 const PasswordSchema = z
@@ -17,6 +17,7 @@ const PasswordSchema = z
         type: "array",
         inclusive: true,
         message: "Too many items 😡",
+        code: "custom",
       });
     }
   });

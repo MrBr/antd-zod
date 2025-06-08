@@ -1,5 +1,5 @@
 import { AntdFormZodSchema } from "../types";
-import { $ZodShape } from "@zod/core";
+import { $ZodShape } from "zod/v4/core";
 import prepareValues from "./prepareValues";
 import formatErrors from "./formatErrors";
 

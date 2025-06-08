@@ -4,9 +4,9 @@ import {
   $ZodOptional,
   $ZodObject,
   $ZodNullable,
-} from "@zod/core";
+  $ZodType,
+} from "zod/v4/core";
 import { AntdFormZodSchema } from "../types";
-import { $ZodType } from "@zod/core";
 
 export const isZodOptional = (schema: $ZodType): schema is $ZodOptional =>
   schema._zod.def.type === "optional";

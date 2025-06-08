@@ -1,4 +1,4 @@
-import { $ZodIssue, $ZodType } from "@zod/core";
+import { $ZodIssue, $ZodType } from "zod/v4/core";
 import { isZodObject, isZodArray } from "./schema";
 import getSchemaBaseSchema from "./getSchemaBaseSchema";
 

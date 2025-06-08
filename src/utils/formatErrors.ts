@@ -1,6 +1,5 @@
-import { $ZodError } from "@zod/core";
+import { $ZodError, $ZodShape, $ZodType } from "zod/v4/core";
 import getSchemaBaseSchema from "./getSchemaBaseSchema";
-import { $ZodShape, $ZodType } from "@zod/core";
 import { isZodObject } from "./schema";
 import getIssueAntdPath from "./getIssueAntdPath";
 

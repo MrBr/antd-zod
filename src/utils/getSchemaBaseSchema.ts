@@ -1,5 +1,5 @@
 import { isZodNullable, isZodOptional } from "./schema";
-import { $ZodType } from "@zod/core";
+import { $ZodType } from "zod/v4/core";
 
 const getSchemaBaseSchema = <T extends $ZodType>(schema: $ZodType): T => {
   if (isZodOptional(schema)) {
