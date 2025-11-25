@@ -66,7 +66,7 @@
     "zod": "^3.25.56"
   },
   "peerDependencies": {
-    "antd": "^5.20.5",
+    "antd": "^5.0.0 || ^6.0.0",
     "zod": ">=3.25.0"
   },
   "dependencies": {
