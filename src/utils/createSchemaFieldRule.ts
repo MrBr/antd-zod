@@ -1,8 +1,8 @@
 import { $ZodShape } from "zod/v4/core";
-import { RuleRender } from "rc-field-form/lib/interface";
 import { AntdFormZodSchema } from "../types";
 import validateFields from "./validateFields";
 import prepareValues from "./prepareValues";
+import { RuleRender } from "antd/es/form";
 
 const createSchemaFieldRule =
   <T extends $ZodShape>(schema: AntdFormZodSchema<T>): RuleRender =>

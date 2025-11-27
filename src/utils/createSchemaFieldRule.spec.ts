@@ -1,8 +1,8 @@
 import createSchemaFieldRule from "./createSchemaFieldRule";
 import { FormInstance } from "antd";
-import { RuleObject } from "rc-field-form/lib/interface";
 
 import { NameSchema, NestedRefinedSchema } from "../fixtures";
+import { RuleObject } from "antd/es/form";
 
 const mockFormInstance = (values: {}) =>
   ({
